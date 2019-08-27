@@ -1,0 +1,7 @@
+package algorithms
+
+import "fmt"
+
+func main() {
+	fmt.Println("This is golang algorithms.")
+}

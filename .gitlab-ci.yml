@@ -1,0 +1,77 @@
+# This file is a template, and might need editing before it works on your project.
+image: golang:1.12-alpine3.10
+
+variables:
+  # Please edit to your GitLab project
+  BINARY_FILE_NAME: golang-algorithms
+  REPO_NAME: 192.168.80.113/ksqzq/golang-algorithms
+  CI_DEBUG_TRACE: "false"
+
+before_script:
+  - cd $CI_PROJECT_DIR
+  - export GOPROXY=https://goproxy.io
+  - export GIN_MODE=release
+  - export CGO_ENABLED=0
+  - export GO111MODULE=on
+
+stages:
+  - test
+  - build
+  - docker_image
+  - deploy
+
+testing_job:
+  stage: test
+  tags: [docker]
+  script:
+    - echo this is testing...
+    - go mod vendor
+    - go vet -mod=vendor .
+    - go test -mod=vendor .
+    #- go test .
+    #- go fmt $(go list ./... | grep -v /vendor/)
+    #- go vet $(go list ./... | grep -v /vendor/)
+    #- go test -race $(go list ./... | grep -v /vendor/)
+
+testing_job2:
+  stage: test
+  tags: [docker]
+  script:
+    - echo testing job 2...
+    - echo SHA $CI_COMMIT_SHA
+
+compiling_job:
+  stage: build
+  tags: [docker]
+  script:
+    - echo this is compiling...
+    - go mod vendor
+    - go build -mod=vendor -o $BINARY_FILE_NAME .
+    #- go build -race -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/$BINARY_FILE_NAME
+  #artifacts:
+  #  paths:
+  #    - $BINARY_FILE_NAME
+
+building_job:
+  image: docker:stable
+  stage: docker_image
+  tags: [docker]
+  script:
+    - echo this is building docker image...
+    #- docker build -t $BINARY_FILE_NAME .
+    #- docker tag $BINARY_FILE_NAME:latest my-ubuntu-dev.com/$BINARY_FILE_NAME:$CI_COMMIT_SHA
+    - echo docker build -t my-ubuntu-dev.com/$BINARY_FILE_NAME:$CI_COMMIT_SHA .
+    - echo docker push my-ubuntu-dev.com/$BINARY_FILE_NAME:$CI_COMMIT_SHA
+    #- docker tag ...
+    #- docker push ...
+
+deploying_job:
+  #image: docker:stable
+  stage: deploy
+  tags: [docker]
+  script:
+    - echo this is deploying...
+    - >
+      echo helm install charts/$BINARY_FILE_NAME --name $BINARY_FILE_NAME
+      --set image.repository=my-ubuntu-dev.com/$BINARY_FILE_NAME
+      --set image.tag=$CI_COMMIT_SHA
