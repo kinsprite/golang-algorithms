@@ -1,7 +1,7 @@
 package search
 
-// BSInterface BinarySearch interface
-type BSInterface interface {
+// BinarySearchInterface BinarySearch interface
+type BinarySearchInterface interface {
 	Len() int
 	// returns: <0, less than; =0, equal to; >0, greater than
 	Comp(i int, value interface{}) int
@@ -22,11 +22,10 @@ func (items *IntSlice) Comp(i int, value interface{}) int {
 
 // BinarySearch binary search
 func BinarySearch(itemsInput interface{}, value interface{}) (bool, int) {
-	items := itemsInput.(BSInterface)
-	len := items.Len()
+	items := itemsInput.(BinarySearchInterface)
 
 	low := 0
-	high := len - 1
+	high := items.Len() - 1
 
 	for low <= high {
 		mid := (low + high) / 2
