@@ -21,9 +21,7 @@ func (items *IntSlice) Comp(i int, value interface{}) int {
 }
 
 // BinarySearch binary search
-func BinarySearch(itemsInput interface{}, value interface{}) (bool, int) {
-	items := itemsInput.(BinarySearchInterface)
-
+func BinarySearch(items BinarySearchInterface, value interface{}) (bool, int) {
 	low := 0
 	high := items.Len() - 1
 

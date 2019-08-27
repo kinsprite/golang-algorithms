@@ -8,7 +8,10 @@ on Windows:
 set GOPROXY=https://goproxy.io
 go test ./...
 go test -cover ./...
-go test -bench=./...
+
+cd search
+go test -bench .
+
 go build -o golang-algorithms.exe .
 ```
 
@@ -18,6 +21,9 @@ or Linux:
 export GOPROXY=https://goproxy.io
 go test ./...
 go test -cover ./...
-go test -bench=./...
+
+cd search
+go test -bench .
+
 go build -o golang-algorithms .
 ```
