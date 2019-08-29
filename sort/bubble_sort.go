@@ -7,15 +7,11 @@ type BubbleSortInterface interface {
 	Swap(i, j int)
 }
 
-// Less IntSlice's less compare
-func (items *IntSlice) Swap(i, j int) {
-	(*items)[i], (*items)[j] = (*items)[j], (*items)[i]
-}
-
 // BubbleSort BubbleSort(items)
 func BubbleSort(items BubbleSortInterface) BubbleSortInterface {
 	length := items.Len()
 
+	// bubbel smallest from last to first
 	for i := length - 1; i > 0; i-- {
 		for j := 1; j <= i; j++ {
 			if items.Less(j, j-1) {

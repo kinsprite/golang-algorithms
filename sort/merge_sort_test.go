@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestSelectionSort(t *testing.T) {
+func TestMergeSort(t *testing.T) {
 	type args struct {
 		items IntSlice
 	}
@@ -22,11 +22,10 @@ func TestSelectionSort(t *testing.T) {
 			want: IntSlice{1, 2, 3, 4},
 		},
 	}
-
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := SelectionSort(tt.args.items); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("SelectionSort() = %v, want %v", got, tt.want)
+			if got := MergeSort(tt.args.items); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("MergeSort() = %v, want %v", got, tt.want)
 			}
 		})
 	}
