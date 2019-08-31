@@ -4,7 +4,7 @@ image: golang:1.12-alpine3.10
 variables:
   # Please edit to your GitLab project
   BINARY_FILE_NAME: golang-algorithms
-  REPO_NAME: 192.168.80.113/ksqzq/golang-algorithms
+  REPO_NAME: gitlab.qinzhiqiang.cn/ksqzq/golang-algorithms
   CI_DEBUG_TRACE: "false"
 
 before_script:
@@ -59,19 +59,22 @@ building_job:
   script:
     - echo this is building docker image...
     #- docker build -t $BINARY_FILE_NAME .
-    #- docker tag $BINARY_FILE_NAME:latest my-ubuntu-dev.com/$BINARY_FILE_NAME:$CI_COMMIT_SHA
-    - echo docker build -t my-ubuntu-dev.com/$BINARY_FILE_NAME:$CI_COMMIT_SHA .
-    - echo docker push my-ubuntu-dev.com/$BINARY_FILE_NAME:$CI_COMMIT_SHA
+    #- docker tag $BINARY_FILE_NAME:latest registry.qinzhiqiang.cn/$BINARY_FILE_NAME:$CI_COMMIT_SHA
+    - echo docker build -t registry.qinzhiqiang.cn/$BINARY_FILE_NAME:$CI_COMMIT_SHA .
+    - echo docker push registry.qinzhiqiang.cn/$BINARY_FILE_NAME:$CI_COMMIT_SHA
     #- docker tag ...
     #- docker push ...
 
 deploying_job:
-  #image: docker:stable
+  image: dtzar/helm-kubectl:latest
   stage: deploy
   tags: [docker]
   script:
     - echo this is deploying...
+    - echo mkdir /root/.kube
+    - echo cp $KUBE_CONFIG_FILE /root/.kube/config
+    - echo helm init --client-only
     - >
-      echo helm install charts/$BINARY_FILE_NAME --name $BINARY_FILE_NAME
-      --set image.repository=my-ubuntu-dev.com/$BINARY_FILE_NAME
+      echo helm upgrade $BINARY_FILE_NAME charts/$BINARY_FILE_NAME --install
+      --set image.repository=registry.qinzhiqiang.cn/$BINARY_FILE_NAME
       --set image.tag=$CI_COMMIT_SHA
