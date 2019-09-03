@@ -6,6 +6,11 @@ func QuickSort(items IntSlice) IntSlice {
 	return items
 }
 
+// QuickSort2 Quick Sort
+func QuickSort2(items IntSlice) IntSlice {
+	return quickSortMergeSlice(items)
+}
+
 // QuickSort Quick Sort in place, include A[q] end A[r]
 func quickSortInPlace(A IntSlice, p, r int) {
 	if r <= p {
@@ -57,8 +62,8 @@ func quickSortMergeSlice(items IntSlice) IntSlice {
 		}
 	}
 
-	QuickSort(less)
-	QuickSort(greater)
+	quickSortMergeSlice(less)
+	quickSortMergeSlice(greater)
 
 	copy(items, less)
 	lessSize := len(less)
