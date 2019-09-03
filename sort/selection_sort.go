@@ -21,14 +21,7 @@ func SelectionSort(items IntSlice) IntSlice {
 	// select smallest into first slot to last slot
 	for i := 0; i < length; i++ {
 		smallestIndex := findSmallestIndex(items, i, length)
-		smallest := items[smallestIndex]
-
-		// keep out the slot
-		for j := smallestIndex; j > i; j-- {
-			items[j] = items[j-1]
-		}
-
-		items[i] = smallest
+		items[i], items[smallestIndex] = items[smallestIndex], items[i]
 	}
 
 	return items
