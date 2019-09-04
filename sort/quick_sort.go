@@ -27,7 +27,7 @@ func quickSortPartition(A IntSlice, p, r int) int {
 	x := A[r]
 	i := p - 1
 
-	// 从左到右，交换<x的值到前面位置
+	// 从左到右，交换<=x的值到前面开始打印>x的位置，确保前面序列均小于<=x
 	for j := p; j < r; j++ {
 		if A[j] <= x {
 			i++
