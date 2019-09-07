@@ -2,13 +2,29 @@ package search
 
 import "fmt"
 
+// Color Tree Node's cColor
+type Color uint
+
+const (
+	// Red node color
+	Red Color = iota
+	// Black node color
+	Black
+)
+
 // TreeNode Tree Node
 type TreeNode struct {
+	Color  Color
 	Key    int
 	Data   interface{}
 	Parent *TreeNode
 	Left   *TreeNode
 	Right  *TreeNode
+}
+
+// TreeNil TreeNil
+var TreeNil = &TreeNode{
+	Color: Black,
 }
 
 // Tree Tree
