@@ -37,5 +37,5 @@ func (items IntSlice) Clone() IntSlice {
 
 // Pop IntSlice's Pop(i)
 func (items IntSlice) Pop(i int) IntSlice {
-	return append(items[0:i], items[i+1:len(items)]...)
+	return append(items[0:i], items[i+1:]...)
 }
