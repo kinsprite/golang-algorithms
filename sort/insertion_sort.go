@@ -8,8 +8,9 @@ func InsertionSort(items IntSlice) IntSlice {
 		sel := items[i]
 		j := i - 1
 
+		// 从当前位置往前找插入的位置
 		for ; j >= 0 && items[j] > sel; j-- {
-			// 大于当前值的，都往后挪一个位置。 -- 找插入位置
+			// 大于当前值的，都往后挪一个位置
 			items[j+1] = items[j]
 		}
 
