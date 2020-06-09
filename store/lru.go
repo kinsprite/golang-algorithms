@@ -35,6 +35,14 @@ func (cache *LRUCache) Get(key string) (interface{}, bool) {
 func (cache *LRUCache) Set(key string, value interface{}) {
 	l := cache.List
 
+	// update exist key's value
+	if e, ok := cache.Map[key]; ok {
+		e.Value.(*LRUElement).Value = value
+		l.MoveToBack(e)
+		return
+	}
+
+	// add new key's value
 	if l.Len() >= cache.Max {
 		e := l.Front()
 		l.Remove(e)
@@ -42,7 +50,6 @@ func (cache *LRUCache) Set(key string, value interface{}) {
 		delete(cache.Map, e.Value.(*LRUElement).Key)
 	}
 
-	e := &LRUElement{key, value}
-	le := l.PushBack(e)
-	cache.Map[key] = le
+	e := l.PushBack(&LRUElement{key, value})
+	cache.Map[key] = e
 }
